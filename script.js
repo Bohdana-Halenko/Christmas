@@ -1,115 +1,117 @@
-window.addEventListener('load', windowLoad);
+"use strict"
 
-function windowLoad() {
-    document.documentElement.classList.add('loaded');
+window.addEventListener("load", windowLoad);
 
+function windowLoad(){
+    document.documentElement.classList.add("loaded");
 
-    //Mouse parallax
+    // mouse paralaxx
+
     const page = document.querySelector('.page');
-    const parallaxItems = document.querySelectorAll('[class*="__inset"]');
+    const paralaxxItems = document.querySelectorAll('[class*="__inset"]');
     const speed = 0.05;
 
     let posX = 0;
     let cXprocent = 0;
 
     page.addEventListener('mousemove', parallaxAnimation);
-
-    function parallaxAnimation(e) {
-        const parallaxWidth = window.innerWidth;
-        const cX = e.pageX - parallaxWidth / 2;
-        cXprocent = cX / parallaxWidth * 100;
-    }
-    function setParallaxAnimationStyle(e) {
-        const distX = cXprocent - posX;
-        posX = posX + (distX * speed);
-
-        parallaxItems.forEach(parallaxItem => {
-            const value = parallaxItem.dataset.prxValue ?
-                +parallaxItem.dataset.prxValue : 1;
-            
-            parallaxItem.style.cssText = `
-            transform: translateX(${posX / value}%);
-            `;
-        });
-        requestAnimationFrame(setParallaxAnimationStyle);
-    }
-    setParallaxAnimationStyle();
-
-
-    //Scroll parallax
-    const moon = document.querySelector('.moon');
-    const buildings = document.querySelectorAll('.building');
-    const tree = document.querySelector('.tree');
-    const stairs = document.querySelector('.stairs');
-    const train = document.querySelector('.train');
-    const santaItems = document.querySelectorAll('.santa>*');
-
-    window.addEventListener('scroll', createPosition);
-    createPosition();
-
-    function createPosition() {
-        const contentElement = document.querySelector('.content__container');
-        const windowHeight = window.innerHeight;
-        const finalPos = scrollY / (contentElement.offsetTop - windowHeight) * 100;
-        finalPos < 100 ? christmassAnimation(finalPos) : christmassAnimation(100);
-    }
-    function christmassAnimation(finalPos) {
-        const moonAnim = {
-            translate: 50 / 100 * finalPos,
-            scale: 1 + 2 / 100 * finalPos
+    function parallaxAnimation(e){
+        const paralaxWidth = window.innerWidth;
+        const cX = e.pageX - paralaxWidth / 2;
+        cXprocent = cX / paralaxWidth * 100;
+        } 
+        function setParallaxAnimationStyle(e){
+            const distX = cXprocent - posX;
+            posX = posX + (distX * speed);
+            paralaxxItems.forEach(paralaxxItem =>{
+                const value = paralaxxItem.dataset.prxValue ?
+                +paralaxxItem.dataset.prxValue : 1;
+                
+                paralaxxItem.style.cssText = `
+                    transform: translateX(${posX/value}%);
+                `
+            });
+            requestAnimationFrame(setParallaxAnimationStyle);
         }
-        moon.style.cssText = `
-            transform:
-                translate(0,${moonAnim.translate}%)
-                scale(${moonAnim.scale});
-            `;
-        
-        const stairsAnim = {
-            translate: 70 / 100 * finalPos,
-            scale: 1 + 2 / 100 * finalPos
+        setParallaxAnimationStyle();
+
+        // scrollParallax
+
+        const moon = document.querySelector('.moon');
+        const building = document.querySelectorAll('.building');
+        const tree = document.querySelector('.tree');
+        const stairs = document.querySelector('.stairs');
+        const train = document.querySelector('.train');
+        const santaItems = document.querySelectorAll('.santa>*');
+
+
+        window.addEventListener('scroll', createPosition);
+        createPosition();
+
+        function createPosition(){
+            const contentElement = document.querySelector('.content__container');
+            const windowHeight = window.innerHeight;
+            const finalPos = scrollY / (contentElement.offsetTop - windowHeight) * 100;
+            finalPos < 100 ? christmasAnimation(finalPos) :  christmasAnimation(100);
+
         }
-        stairs.style.cssText = `
-            transform:
-                translate(0,${stairsAnim.translate}%)
-                scale(${stairsAnim.scale});
+        function christmasAnimation(finalPos){
+            const moonAnim = {
+                translate: 50 / 100 * finalPos,
+                scale: 1 + 2/100 * finalPos
+            }
+            moon.style.cssText = `
+                transform: 
+                    translate(0, ${moonAnim.translate}%)
+                    scale(${moonAnim.scale})
+            `;
+
+            const stairsAnum = {
+                translate: 70 / 100 * finalPos,
+                scale: 1 + 2/100 * finalPos
+            }
+            stairs.style.cssText = `
+            transform: 
+                translate(0, ${stairsAnum.translate}%)
+                scale(${stairsAnum.scale})
         `;
 
-        const treeAnim = {
+        const treeAnum = {
             translate: 70 / 100 * finalPos,
-            scale: 1 + 1.5 / 100 * finalPos
+            scale: 1 + 1.5/100 * finalPos
         }
         tree.style.cssText = `
-            transform:
-                translate(0,${treeAnim.translate}%)
-                scale(${treeAnim.scale});
-        `;
+        transform: 
+            translate(0, ${treeAnum.translate}%)
+            scale(${treeAnum.scale})
+    `;
 
-        buildings.forEach((building, index) => {
-            const buildingAnim = {
-                translate: 30 * (buildings.length - index) / 100 * finalPos,
-                scale: 1 + 2 / 100 * finalPos
-            }
-            building.style.cssText = `
-                transform:
-                    translate(0,${buildingAnim.translate}%)
-                    scale(${buildingAnim.scale});
-            `;
-        });
-        const trainAnim = {
-            translate: 1 * finalPos,
-            scale: 1 + 1.5 / 100 * finalPos
+    building.forEach((buildings, index) =>{
+        const buildingAnim = {
+            translate: 30 * (building.length - index) / 100 * finalPos,
+            scale: 1 + 2 / 100 * finalPos
         }
-        train.style.cssText = `
-            transform: translate(-${trainAnim.translate}%,${trainAnim.translate}%)
+        buildings.style.cssText = `
+        transform: 
+            translate(0, ${buildingAnim.translate}%)
+            scale(${buildingAnim.scale})
         `;
+    });
 
-        santaItems.forEach((santaItem, index) => {
-            const santaAnim = {
-                left: (100 + (10 * index)) / 100 * finalPos
-            }
-            santaItem.style.left = `${santaAnim.left}%`;
-        })
+    const trainAnum = {
+        translate: 1 * finalPos,
     }
+    train.style.cssText = `
+    transform: translate(-${trainAnum.translate}%,${trainAnum.translate}%);
+       `;
+
+    santaItems.forEach((santaItem, index)=>{
+        const santaAnim = {
+            left: (100 + (10 * index)) / 100 * finalPos
+        }
+        santaItem.style.left = `${santaAnim.left}%`
+    })
+        }
 }
 
 
